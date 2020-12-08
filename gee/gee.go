@@ -6,9 +6,9 @@ import (
 	"net/http"
 )
 
-type HandlerFunc func(http.ResponseWriter, *http.Request)
+type HandlerFunc func(http.ResponseWriter, *http.Request) //定义了request hander
 
-type Engine struct {
+type Engine struct { //serveHTTP接口
 	router map[string]HandlerFunc
 }
 
@@ -22,15 +22,15 @@ func (engine *Engine) addRoute(method string, pattern string, handler HandlerFun
 	engine.router[key] = handler
 }
 
-func (engine *Engine) GET(pattern string, handler HandlerFunc) {
+func (engine *Engine) GET(pattern string, handler HandlerFunc) { //get
 	engine.addRoute("GET", pattern, handler)
 }
 
-func (engine *Engine) POST(pattern string, handler HandlerFunc) {
+func (engine *Engine) POST(pattern string, handler HandlerFunc) { //post
 	engine.addRoute("POST", pattern, handler)
 }
 
-func (engine *Engine) Run(addr string) (err error) {
+func (engine *Engine) Run(addr string) (err error) { //启动
 	return http.ListenAndServe(addr, engine)
 }
 
